@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-vaesthetic-staging-164730-authRole",
+      "UnauthRoleArn": "arn:aws:iam::925935261349:role/amplify-vaesthetic-staging-164730-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::925935261349:role/amplify-vaesthetic-staging-164730-authRole",
+      "Region": "ap-south-1",
+      "DeploymentBucketName": "amplify-vaesthetic-staging-164730-deployment",
+      "UnauthRoleName": "amplify-vaesthetic-staging-164730-unauthRole",
+      "StackName": "amplify-vaesthetic-staging-164730",
+      "StackId": "arn:aws:cloudformation:ap-south-1:925935261349:stack/amplify-vaesthetic-staging-164730/8a02c170-d85c-11ec-b209-06dbb0d739ee",
+      "AmplifyAppId": "d3vntq6kgsbupf"
+    },
+    "categories": {
+      "auth": {
+        "vaesthetic": {}
+      }
+    }
+  }
+}
