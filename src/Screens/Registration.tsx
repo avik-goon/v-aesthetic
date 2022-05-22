@@ -133,4 +133,4 @@ export default function Registration() {
   );
 }
 
-const styles = StyleSheet.create({});
+//const styles = StyleSheet.create({});
