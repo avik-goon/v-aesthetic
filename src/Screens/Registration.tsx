@@ -1,9 +1,19 @@
 import * as React from "react";
-import { Box, Text, Input, Stack, Center, HStack } from "native-base";
+import {
+  Box,
+  Text,
+  Input,
+  Stack,
+  Center,
+  Button,
+  Icon,
+  Select,
+  CheckIcon,
+} from "native-base";
 import { Video } from "expo-av";
+import { Ionicons } from "@expo/vector-icons";
 import {
   Keyboard,
-  StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from "react-native";
@@ -14,6 +24,7 @@ export default function Registration() {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
   const [loginSwitch, setLoginSwitch] = React.useState("login");
+  const [gender, setGender] = React.useState("male");
   return (
     <Box flex={1} justifyContent={"center"}>
       <Video
@@ -49,7 +60,7 @@ export default function Registration() {
         <Box
           position={"absolute"}
           w={windowWidth}
-          h={windowHeight / 2.6}
+          h={loginSwitch === "register" ? windowHeight / 2 : windowHeight / 2.5}
           flexDir={"row"}
           backgroundColor={"white"}
           opacity={1}
@@ -68,7 +79,6 @@ export default function Registration() {
             alignItems={"center"}
             justifyContent={"center"}
             p={5}
-            mt={-20}
           >
             <Box flexDir={"row"} w="100%" pb={2}>
               <Box w={"50%"} alignItems={"center"}>
@@ -121,10 +131,94 @@ export default function Registration() {
                       borderColor={"primary.600"}
                     />
                   </Center>
+                  <Center
+                    w={"100%"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                    alignSelf={"center"}
+                  >
+                    <Button
+                      leftIcon={
+                        <Icon as={Ionicons} name="log-in-outline" size="lg" />
+                      }
+                      size={"lg"}
+                      colorScheme="primary"
+                      borderRadius={25}
+                      paddingLeft={10}
+                      paddingRight={10}
+                    >
+                      LOGIN
+                    </Button>
+                  </Center>
                 </Stack>
               </TouchableWithoutFeedback>
             ) : (
-              <></>
+              //register codes
+              <Stack space={4}>
+                <Center w={"100%"}>
+                  <Input
+                    variant="rounded"
+                    placeholder="Full Name"
+                    borderColor={"primary.600"}
+                  />
+                </Center>
+                <Center w={"100%"}>
+                  <Input
+                    variant="rounded"
+                    placeholder="Email"
+                    keyboardType="email-address"
+                    borderColor={"primary.600"}
+                  />
+                </Center>
+                <Center w={"100%"}>
+                  <Input
+                    variant="rounded"
+                    placeholder="Phone Number"
+                    keyboardType="decimal-pad"
+                    borderColor={"primary.600"}
+                  />
+                </Center>
+                <Center w={"100%"}>
+                  <Box mt={-2}>
+                    <Select
+                      selectedValue={gender}
+                      minWidth="100%"
+                      borderRadius={25}
+                      accessibilityLabel="Choose Gender"
+                      placeholder="Choose Gender"
+                      borderColor={"primary.600"}
+                      _selectedItem={{
+                        bg: "teal.600",
+                        endIcon: <CheckIcon size="5" />,
+                      }}
+                      mt={1}
+                      onValueChange={(itemValue) => setGender(itemValue)}
+                    >
+                      <Select.Item label="Male" value="male" />
+                      <Select.Item label="Female" value="female" />
+                    </Select>
+                  </Box>
+                </Center>
+                <Center
+                  w={"100%"}
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                  alignSelf={"center"}
+                >
+                  <Button
+                    leftIcon={
+                      <Icon as={Ionicons} name="md-save-outline" size="md" />
+                    }
+                    size={"lg"}
+                    colorScheme="primary"
+                    borderRadius={25}
+                    paddingLeft={10}
+                    paddingRight={10}
+                  >
+                    REGISTER
+                  </Button>
+                </Center>
+              </Stack>
             )}
           </Stack>
         </Box>
