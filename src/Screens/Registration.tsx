@@ -18,6 +18,7 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { Dimensions } from "react-native";
+import Login from "../Components/Auth/Login";
 
 export default function Registration() {
   const video = React.useRef(null);
@@ -115,43 +116,7 @@ export default function Registration() {
               </Box>
             </Box>
             {loginSwitch === "login" ? (
-              <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <Stack direction={"column"} space={4}>
-                  <Center w={"100%"}>
-                    <Input
-                      variant="rounded"
-                      placeholder="Username"
-                      borderColor={"primary.600"}
-                    />
-                  </Center>
-                  <Center w={"100%"}>
-                    <Input
-                      variant="rounded"
-                      placeholder="Password"
-                      borderColor={"primary.600"}
-                    />
-                  </Center>
-                  <Center
-                    w={"100%"}
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    alignSelf={"center"}
-                  >
-                    <Button
-                      leftIcon={
-                        <Icon as={Ionicons} name="log-in-outline" size="lg" />
-                      }
-                      size={"lg"}
-                      colorScheme="primary"
-                      borderRadius={25}
-                      paddingLeft={10}
-                      paddingRight={10}
-                    >
-                      LOGIN
-                    </Button>
-                  </Center>
-                </Stack>
-              </TouchableWithoutFeedback>
+              <Login />
             ) : (
               //register codes
               <Stack space={4}>
