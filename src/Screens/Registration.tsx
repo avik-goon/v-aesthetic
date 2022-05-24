@@ -11,7 +11,7 @@ import {
   CheckIcon,
 } from "native-base";
 import { Video } from "expo-av";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import {
   Keyboard,
   TouchableOpacity,
@@ -19,6 +19,7 @@ import {
 } from "react-native";
 import { Dimensions } from "react-native";
 import Login from "../Components/Auth/Login";
+import ErrorMsg from "../Components/Error-Module/ErrorMsg";
 
 export default function Registration() {
   const video = React.useRef(null);
@@ -41,7 +42,7 @@ export default function Registration() {
         shouldPlay={true}
         isMuted={true}
       />
-
+      <ErrorMsg />
       <Box
         zIndex={1}
         position={"absolute"}
