@@ -4,6 +4,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 const ErrorMsg = () => {
   return (
     <Stack
+      zIndex={9999}
       position={"absolute"}
       mt={30}
       w={"100%"}

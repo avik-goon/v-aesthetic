@@ -62,7 +62,6 @@ export default function Registration() {
         <Box
           position={"absolute"}
           w={windowWidth}
-          h={loginSwitch === "register" ? windowHeight / 2 : windowHeight / 2.5}
           flexDir={"row"}
           backgroundColor={"white"}
           opacity={1}
@@ -141,6 +140,20 @@ export default function Registration() {
                     variant="rounded"
                     placeholder="Phone Number"
                     keyboardType="decimal-pad"
+                    borderColor={"primary.600"}
+                  />
+                </Center>
+                <Center w={"100%"}>
+                  <Input
+                    variant="rounded"
+                    placeholder="Password"
+                    borderColor={"primary.600"}
+                  />
+                </Center>
+                <Center w={"100%"}>
+                  <Input
+                    variant="rounded"
+                    placeholder="Re-Type Password"
                     borderColor={"primary.600"}
                   />
                 </Center>
