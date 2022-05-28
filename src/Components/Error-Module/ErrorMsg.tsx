@@ -1,7 +1,12 @@
 import * as React from "react";
 import { Box, Text, Stack, Icon } from "native-base";
-import { MaterialIcons } from "@expo/vector-icons";
-const ErrorMsg = () => {
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+interface prop {
+  errMSG: String;
+}
+const ErrorMsg: React.FC<prop> = ({ errMSG }): JSX.Element => {
+  console.log(errMSG);
+
   return (
     <Stack
       zIndex={9999}
@@ -9,7 +14,7 @@ const ErrorMsg = () => {
       mt={30}
       w={"100%"}
       h={50}
-      bgColor={"red.500"}
+      bgColor={"red.800"}
       opacity={1}
       top={0}
       direction={"row"}
@@ -19,8 +24,8 @@ const ErrorMsg = () => {
       <Box paddingLeft={2}>
         <Icon
           color={"white"}
-          as={MaterialIcons}
-          name="error-outline"
+          as={MaterialCommunityIcons}
+          name="alert-outline"
           size="md"
         />
       </Box>

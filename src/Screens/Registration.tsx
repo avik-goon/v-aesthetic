@@ -16,10 +16,13 @@ import {
   Keyboard,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  StyleSheet,
 } from "react-native";
 import { Dimensions } from "react-native";
 import Login from "../Components/Auth/Login";
 import ErrorMsg from "../Components/Error-Module/ErrorMsg";
+// @ts-ignore
+import { useValidation } from "react-native-form-validator";
 
 export default function Registration() {
   const video = React.useRef(null);
@@ -27,6 +30,33 @@ export default function Registration() {
   const windowHeight = Dimensions.get("window").height;
   const [loginSwitch, setLoginSwitch] = React.useState("login");
   const [gender, setGender] = React.useState("male");
+  const [show, setShow] = React.useState(false);
+  const handleClick = () => setShow(!show);
+  const [authErr, setAuthErr] = React.useState("");
+  const [superAdmin, setSuperAdmin] = React.useState({
+    fullname: "",
+    email: "",
+    phone_number: "",
+    password: "",
+    confirmPassword: "",
+    gender,
+  });
+  console.log(superAdmin);
+
+  const { validate, isFieldInError, getErrorsInField, getErrorMessages } =
+    useValidation({
+      state: { ...superAdmin },
+    });
+  const _onPressButton = () => {
+    validate({
+      fullname: { minlength: 3, maxlength: 7, required: true },
+      email: { email: true },
+      phone_number: { numbers: true },
+      confirmPassword: { equalPassword: superAdmin.password },
+    });
+  };
+  console.log(getErrorsInField());
+
   return (
     <Box flex={1} justifyContent={"center"}>
       <Video
@@ -42,7 +72,7 @@ export default function Registration() {
         shouldPlay={true}
         isMuted={true}
       />
-      <ErrorMsg />
+      {authErr !== "" && <ErrorMsg errMSG={authErr} />}
       <Box
         zIndex={1}
         position={"absolute"}
@@ -145,17 +175,46 @@ export default function Registration() {
                 </Center>
                 <Center w={"100%"}>
                   <Input
+                    type={show ? "text" : "password"}
                     variant="rounded"
                     placeholder="Password"
                     borderColor={"primary.600"}
+                    onChangeText={(val) =>
+                      setSuperAdmin({ ...superAdmin, password: val })
+                    }
+                    value={superAdmin.password}
+                    InputRightElement={
+                      <Button
+                        size="xs"
+                        rounded="none"
+                        w="1/6"
+                        h="full"
+                        onPress={handleClick}
+                      >
+                        {show ? "Hide" : "Show"}
+                      </Button>
+                    }
                   />
                 </Center>
                 <Center w={"100%"}>
                   <Input
+                    type={"password"}
                     variant="rounded"
                     placeholder="Re-Type Password"
                     borderColor={"primary.600"}
+                    value={superAdmin.confirmPassword}
+                    onChangeText={(val) =>
+                      setSuperAdmin({ ...superAdmin, confirmPassword: val })
+                    }
                   />
+                  {isFieldInError("confirmPassword") &&
+                    getErrorsInField("confirmPassword").map(
+                      (errorMessage: string, index: Number) => (
+                        <Text style={styles.errText} key={index.toString()}>
+                          {errorMessage}
+                        </Text>
+                      )
+                    )}
                 </Center>
                 <Center w={"100%"}>
                   <Box mt={-2}>
@@ -193,6 +252,7 @@ export default function Registration() {
                     borderRadius={25}
                     paddingLeft={10}
                     paddingRight={10}
+                    onPress={_onPressButton}
                   >
                     REGISTER
                   </Button>
@@ -206,4 +266,12 @@ export default function Registration() {
   );
 }
 
-//const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  errText: {
+    display: "flex",
+    alignSelf: "flex-start",
+    color: "#640000",
+    marginLeft: 10,
+    fontSize: 12,
+  },
+});
