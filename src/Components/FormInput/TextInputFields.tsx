@@ -8,6 +8,8 @@ interface textFieldProps {
   autoCapitalize?: "none" | any;
   value?: any;
   onChangeText?: any;
+  maxLength?: number;
+  minLength?: number;
   keyboardType?:
     | "default"
     | "email-address"

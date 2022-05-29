@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { TouchableWithoutFeedback, Keyboard, StyleSheet } from "react-native";
 import {
   Box,
@@ -8,7 +8,7 @@ import {
   Icon,
   Select,
   Stack,
-  Text,
+  useToast,
 } from "native-base";
 import TextInputFields from "../FormInput/TextInputFields";
 import PasswordInputField from "../FormInput/PasswordInputField";
@@ -16,7 +16,11 @@ import { Ionicons } from "@expo/vector-icons";
 import * as Animatable from "react-native-animatable";
 // @ts-ignore
 import { useValidation } from "react-native-form-validator";
-const SignUp = () => {
+import { NewAdmin } from "../../../worker/Auth/Auth-worker";
+interface SignUpProp {
+  otpViewModifier: Function;
+}
+const SignUp: FC<SignUpProp> = ({ otpViewModifier }) => {
   const [userInfo, setUserInfo] = React.useState({
     fullname: "",
     email: "",
@@ -25,23 +29,18 @@ const SignUp = () => {
     confirmPassword: "",
     gender: "male",
   });
-  console.log(userInfo);
+  const toast = useToast();
   const _onChange: Function = (value: string | number, formField: string) => {
     setUserInfo({ ...userInfo, [formField]: value });
   };
-  const {
-    validate,
-    isFieldInError,
-    getErrorsInField,
-    getErrorMessages,
-    isFormValid,
-  } = useValidation({
-    state: { ...userInfo },
-  });
+  const { validate, isFieldInError, getErrorsInField, isFormValid } =
+    useValidation({
+      state: { ...userInfo },
+    });
 
   const _onPressButton = () => {
     validate({
-      fullname: { minlength: 3, maxlength: 7, required: true },
+      fullname: { minlength: 3, maxlength: 30, required: true },
       email: { email: true, required: true },
       phone_number: {
         numbers: true,
@@ -50,17 +49,56 @@ const SignUp = () => {
         required: true,
       },
       password: {
-        minlength: 6,
+        minlength: 8,
         hasSpecialCharacter: true,
         hasUpperCase: true,
         hasLowerCase: true,
+        hasNumber: true,
       },
       confirmPassword: {
         equalPassword: userInfo.password,
         required: true,
       },
     });
-    console.log(isFormValid());
+    if (isFormValid()) {
+      new NewAdmin(
+        userInfo.email,
+        userInfo.password,
+        userInfo.fullname,
+        userInfo.email,
+        userInfo.gender,
+        userInfo.phone_number
+      )
+        .handleSignup()
+        .then((awsUserData: any) => {
+          if (awsUserData?.codeDeliveryDetails) {
+            toast.show({
+              title: "User Created",
+              description:
+                "OTP successfully sent to mobile no: " +
+                awsUserData?.codeDeliveryDetails.Destination,
+              duration: 5000,
+            });
+            otpViewModifier((state: any) => ({
+              ...state,
+              username: awsUserData?.username,
+              isVisible: true,
+            }));
+          } else if (awsUserData === "code resent successfully") {
+            otpViewModifier((state: any) => ({
+              ...state,
+              username: awsUserData?.username,
+              isVisible: true,
+            }));
+          } else {
+            toast.show({
+              title: "Info",
+              description: awsUserData,
+              duration: 5000,
+            });
+          }
+        });
+    }
   };
 
   return (

@@ -1,25 +1,33 @@
 import * as React from "react";
-import { Box, Text } from "native-base";
+import { Box, Button, Icon, Text } from "native-base";
 import { Video } from "expo-av";
+import { Ionicons } from "@expo/vector-icons";
 import {
   Keyboard,
+  StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  StyleSheet,
 } from "react-native";
-import { Dimensions } from "react-native";
+import { Dimensions, View } from "react-native";
 import Login from "../Components/Auth/Login";
 import ErrorMsg from "../Components/Error-Module/ErrorMsg";
 // @ts-ignore
-import { useValidation } from "react-native-form-validator";
 import SignUp from "../Components/Auth/SignUp";
-
+import TextInputFields from "../Components/FormInput/TextInputFields";
+import * as Animatable from "react-native-animatable";
+import { validateOTP } from "../../worker/Auth/Auth-worker";
 export default function Registration() {
   const video = React.useRef(null);
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
   const [loginSwitch, setLoginSwitch] = React.useState("login");
   const [authErr, setAuthErr] = React.useState("");
+  const [otpView, setOtpView] = React.useState({
+    username: "",
+    isVisible: false,
+  });
+  const [otp, setOTP] = React.useState("");
+  console.log(otpView);
 
   return (
     <Box flex={1} justifyContent={"center"}>
@@ -51,7 +59,40 @@ export default function Registration() {
         padding={0}
         margin={0}
       />
-
+      {otpView.isVisible && (
+        <Animatable.View animation={"slideInDown"} style={styles.otpfield}>
+          <Text fontFamily={"heading"} textAlign="center" mb={2}>
+            ENTER OTP
+          </Text>
+          <TextInputFields
+            value={otp}
+            maxLength={6}
+            borderColor="primary.600"
+            placeholder="OTP"
+            variant="rounded"
+            onChangeText={(value: number) => setOTP((otp) => value)}
+          />
+          <Button
+            marginTop={3}
+            size={"sm"}
+            colorScheme="pink"
+            borderRadius={25}
+            paddingLeft={10}
+            paddingRight={10}
+            onPress={() => {
+              validateOTP(otpView.username, otp.toString()).then((response) => {
+                setOtpView({ ...otpView, isVisible: false, username: "" });
+                if (response === "SUCCESS") {
+                } else {
+                  setAuthErr(response);
+                }
+              });
+            }}
+          >
+            SUBMIT
+          </Button>
+        </Animatable.View>
+      )}
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <Box
           position={"absolute"}
@@ -111,7 +152,7 @@ export default function Registration() {
               <Login />
             ) : (
               //register user
-              <SignUp />
+              <SignUp otpViewModifier={setOtpView} />
             )}
           </Box>
         </Box>
@@ -119,3 +160,14 @@ export default function Registration() {
     </Box>
   );
 }
+const styles = StyleSheet.create({
+  otpfield: {
+    zIndex: 22222,
+    position: "absolute",
+    top: 30,
+    width: "100%",
+    alignSelf: "center",
+    padding: 15,
+    backgroundColor: "#fff",
+  },
+});
