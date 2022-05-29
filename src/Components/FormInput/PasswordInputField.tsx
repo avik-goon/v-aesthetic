@@ -5,6 +5,8 @@ interface passwordFieldProps {
   variant: string;
   placeholder: string;
   borderColor: string;
+  value?: any;
+  onChangeText?: any;
 }
 const PasswordInputField: FC<passwordFieldProps> = (props) => {
   const { isCenter = true, variant, placeholder, borderColor } = props;

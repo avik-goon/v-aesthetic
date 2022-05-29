@@ -6,6 +6,8 @@ interface textFieldProps {
   borderColor: string;
   isCenter?: boolean;
   autoCapitalize?: "none" | any;
+  value?: any;
+  onChangeText?: any;
   keyboardType?:
     | "default"
     | "email-address"

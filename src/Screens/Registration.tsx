@@ -19,33 +19,7 @@ export default function Registration() {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
   const [loginSwitch, setLoginSwitch] = React.useState("login");
-  const [gender, setGender] = React.useState("male");
-  const [show, setShow] = React.useState(false);
-  const handleClick = () => setShow(!show);
   const [authErr, setAuthErr] = React.useState("");
-  const [superAdmin, setSuperAdmin] = React.useState({
-    fullname: "",
-    email: "",
-    phone_number: "",
-    password: "",
-    confirmPassword: "",
-    gender,
-  });
-  console.log(superAdmin);
-
-  const { validate, isFieldInError, getErrorsInField, getErrorMessages } =
-    useValidation({
-      state: { ...superAdmin },
-    });
-  const _onPressButton = () => {
-    validate({
-      fullname: { minlength: 3, maxlength: 7, required: true },
-      email: { email: true },
-      phone_number: { numbers: true },
-      confirmPassword: { equalPassword: superAdmin.password },
-    });
-  };
-  console.log(getErrorsInField());
 
   return (
     <Box flex={1} justifyContent={"center"}>
@@ -136,7 +110,7 @@ export default function Registration() {
             {loginSwitch === "login" ? (
               <Login />
             ) : (
-              //register codes
+              //register user
               <SignUp />
             )}
           </Box>
@@ -145,13 +119,3 @@ export default function Registration() {
     </Box>
   );
 }
-
-const styles = StyleSheet.create({
-  errText: {
-    display: "flex",
-    alignSelf: "flex-start",
-    color: "#640000",
-    marginLeft: 10,
-    fontSize: 12,
-  },
-});
