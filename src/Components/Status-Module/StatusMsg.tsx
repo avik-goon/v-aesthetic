@@ -2,11 +2,22 @@ import * as React from "react";
 import { Box, Text, Stack, Icon } from "native-base";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 interface prop {
-  errMSG: String;
+  msg: String;
+  statusType: "success" | "info" | "error" | "warning" | undefined;
 }
-const ErrorMsg: React.FC<prop> = ({ errMSG }): JSX.Element => {
-  console.log(errMSG);
-
+const StatusMsg: React.FC<prop> = ({ msg, statusType }): JSX.Element => {
+  let bg_color = "red.800"; // for error
+  let status_icon = "alert-outline"; // for error
+  if (statusType === "success") {
+    bg_color = "lime.900";
+    status_icon = "check-outline";
+  } else if (statusType === "info") {
+    bg_color = "cyan.800";
+    status_icon = "information-outline";
+  } else if (statusType === "warning") {
+    bg_color = "orange.700";
+    status_icon = "alarm-light-outline";
+  }
   return (
     <Stack
       zIndex={9999}
@@ -14,7 +25,7 @@ const ErrorMsg: React.FC<prop> = ({ errMSG }): JSX.Element => {
       mt={30}
       w={"100%"}
       h={50}
-      bgColor={"red.800"}
+      bgColor={bg_color}
       opacity={1}
       top={0}
       direction={"row"}
@@ -25,7 +36,7 @@ const ErrorMsg: React.FC<prop> = ({ errMSG }): JSX.Element => {
         <Icon
           color={"white"}
           as={MaterialCommunityIcons}
-          name="alert-outline"
+          name={status_icon}
           size="md"
         />
       </Box>
@@ -36,10 +47,10 @@ const ErrorMsg: React.FC<prop> = ({ errMSG }): JSX.Element => {
           fontWeight={"bold"}
           fontSize={15}
         >
-          This is a error message
+          {msg}
         </Text>
       </Box>
     </Stack>
   );
 };
-export default ErrorMsg;
+export default StatusMsg;

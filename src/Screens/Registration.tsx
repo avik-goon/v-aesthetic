@@ -1,33 +1,31 @@
 import * as React from "react";
-import { Box, Button, Icon, Text } from "native-base";
+import { Box, Button, Text } from "native-base";
 import { Video } from "expo-av";
-import { Ionicons } from "@expo/vector-icons";
 import {
   Keyboard,
   StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from "react-native";
-import { Dimensions, View } from "react-native";
+import { Dimensions } from "react-native";
 import Login from "../Components/Auth/Login";
-import ErrorMsg from "../Components/Error-Module/ErrorMsg";
-// @ts-ignore
 import SignUp from "../Components/Auth/SignUp";
 import TextInputFields from "../Components/FormInput/TextInputFields";
 import * as Animatable from "react-native-animatable";
 import { validateOTP } from "../../worker/Auth/Auth-worker";
+import StatusMsg from "../Components/Status-Module/StatusMsg";
+import useStore from "../../store/store";
 export default function Registration() {
   const video = React.useRef(null);
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
   const [loginSwitch, setLoginSwitch] = React.useState("login");
-  const [authErr, setAuthErr] = React.useState("");
+  const { authStatus, setAuthStatus, unsetauthStatus } = useStore();
   const [otpView, setOtpView] = React.useState({
     username: "",
     isVisible: false,
   });
   const [otp, setOTP] = React.useState("");
-  console.log(otpView);
 
   return (
     <Box flex={1} justifyContent={"center"}>
@@ -44,7 +42,9 @@ export default function Registration() {
         shouldPlay={true}
         isMuted={true}
       />
-      {authErr !== "" && <ErrorMsg errMSG={authErr} />}
+      {authStatus.msg !== undefined && (
+        <StatusMsg statusType={authStatus.statusType} msg={authStatus.msg} />
+      )}
       <Box
         zIndex={1}
         position={"absolute"}
@@ -70,7 +70,7 @@ export default function Registration() {
             borderColor="primary.600"
             placeholder="OTP"
             variant="rounded"
-            onChangeText={(value: number) => setOTP((otp) => value)}
+            onChangeText={(value: string) => setOTP((otp) => value)}
           />
           <Button
             marginTop={3}
@@ -84,7 +84,7 @@ export default function Registration() {
                 setOtpView({ ...otpView, isVisible: false, username: "" });
                 if (response === "SUCCESS") {
                 } else {
-                  setAuthErr(response);
+                  setAuthStatus(response);
                 }
               });
             }}
