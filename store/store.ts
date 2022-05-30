@@ -12,11 +12,11 @@ const useStore = create<store>(set => ({
     statusType: undefined,
     msg: undefined
   },
-  setAuthStatus: (msg: (string | undefined), _statusType: ("success" | "info" | "error" | "warning" | undefined) ) => set(state => ({ ...state.authStatus, authStatus:{
+  setAuthStatus: (msg: (string | undefined), _statusType: ("success" | "info" | "error" | "warning" | undefined) ) => set(() => ({ authStatus:{
     msg: msg,
     statusType: _statusType
   }})),
-  unsetauthStatus: () => set((state) => ({ ...state.authStatus, authStatus:{
+  unsetauthStatus: () => set(() => ({ authStatus:{
     msg: undefined,
     statusType: undefined
   }}))

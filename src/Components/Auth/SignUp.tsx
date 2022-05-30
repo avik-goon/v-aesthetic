@@ -19,8 +19,9 @@ import { useValidation } from "react-native-form-validator";
 import { NewAdmin } from "../../../worker/Auth/Auth-worker";
 interface SignUpProp {
   otpViewModifier: Function;
+  setLoginSwitch: Function;
 }
-const SignUp: FC<SignUpProp> = ({ otpViewModifier }) => {
+const SignUp: FC<SignUpProp> = ({ otpViewModifier, setLoginSwitch }) => {
   const [userInfo, setUserInfo] = React.useState({
     fullname: "",
     email: "",
@@ -39,6 +40,7 @@ const SignUp: FC<SignUpProp> = ({ otpViewModifier }) => {
     });
 
   const _onPressButton = () => {
+    Keyboard.dismiss();
     validate({
       fullname: { minlength: 3, maxlength: 30, required: true },
       email: { email: true, required: true },
@@ -84,12 +86,30 @@ const SignUp: FC<SignUpProp> = ({ otpViewModifier }) => {
               username: awsUserData?.username,
               isVisible: true,
             }));
+            setUserInfo(() => ({
+              fullname: "",
+              email: "",
+              phone_number: "",
+              password: "",
+              confirmPassword: "",
+              gender: "male",
+            }));
+            setLoginSwitch(() => "login");
           } else if (awsUserData === "code resent successfully") {
             otpViewModifier((state: any) => ({
               ...state,
               username: awsUserData?.username,
               isVisible: true,
             }));
+            setUserInfo(() => ({
+              fullname: "",
+              email: "",
+              phone_number: "",
+              password: "",
+              confirmPassword: "",
+              gender: "male",
+            }));
+            setLoginSwitch(() => "login");
           } else {
             toast.show({
               title: "Info",

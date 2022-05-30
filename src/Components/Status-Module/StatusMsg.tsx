@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Box, Text, Stack, Icon } from "native-base";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native";
+import useStore from "../../../store/store";
 interface prop {
   msg: String;
   statusType: "success" | "info" | "error" | "warning" | undefined;
@@ -18,6 +20,7 @@ const StatusMsg: React.FC<prop> = ({ msg, statusType }): JSX.Element => {
     bg_color = "orange.700";
     status_icon = "alarm-light-outline";
   }
+  const unSetStatus = useStore((state) => state.unsetauthStatus);
   return (
     <Stack
       zIndex={9999}
@@ -30,7 +33,7 @@ const StatusMsg: React.FC<prop> = ({ msg, statusType }): JSX.Element => {
       top={0}
       direction={"row"}
       alignItems={"center"}
-      space={2}
+      justifyContent={"space-between"}
     >
       <Box paddingLeft={2}>
         <Icon
@@ -40,15 +43,26 @@ const StatusMsg: React.FC<prop> = ({ msg, statusType }): JSX.Element => {
           size="md"
         />
       </Box>
-      <Box>
+      <Box minW={"80%"}>
         <Text
           color={"white"}
           fontFamily={"heading"}
           fontWeight={"bold"}
           fontSize={15}
+          textAlign={"left"}
         >
           {msg}
         </Text>
+      </Box>
+      <Box mr={2}>
+        <TouchableOpacity onPress={() => unSetStatus()}>
+          <Icon
+            color={"white"}
+            as={MaterialCommunityIcons}
+            name={"close-circle-outline"}
+            size="md"
+          />
+        </TouchableOpacity>
       </Box>
     </Stack>
   );

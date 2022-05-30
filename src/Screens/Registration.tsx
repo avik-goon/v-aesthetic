@@ -80,11 +80,16 @@ export default function Registration() {
             paddingLeft={10}
             paddingRight={10}
             onPress={() => {
+              Keyboard.dismiss();
               validateOTP(otpView.username, otp.toString()).then((response) => {
                 setOtpView({ ...otpView, isVisible: false, username: "" });
                 if (response === "SUCCESS") {
+                  setAuthStatus(
+                    "OTP Validation Successfull, you can now login",
+                    "success"
+                  );
                 } else {
-                  setAuthStatus(response);
+                  setAuthStatus(response, "error");
                 }
               });
             }}
@@ -152,7 +157,10 @@ export default function Registration() {
               <Login />
             ) : (
               //register user
-              <SignUp otpViewModifier={setOtpView} />
+              <SignUp
+                otpViewModifier={setOtpView}
+                setLoginSwitch={setLoginSwitch}
+              />
             )}
           </Box>
         </Box>
