@@ -5,17 +5,18 @@ import { Keyboard, TouchableWithoutFeedback, StyleSheet } from "react-native";
 import TextInputFields from "../FormInput/TextInputFields";
 import PasswordInputField from "../FormInput/PasswordInputField";
 import * as Animatable from "react-native-animatable";
+import useStore from "../../../store/store";
 // @ts-ignore
 import { useValidation } from "react-native-form-validator";
 const BORDER_COLOR = "primary.600";
 const Login = () => {
-  const [loginInfo, setLoginInfo] = React.useState({
-    username: "",
-    password: "",
-  });
-
-  const __onChange: Function = (value: string | number, formField: string) => {
-    setLoginInfo((loginInfo) => ({ ...loginInfo, [formField]: value }));
+  const { userLoginInfo, setUserLoginInfo } = useStore();
+  const __onChange: Function = (value: string, formField: string) => {
+    if (formField === "username") {
+      setUserLoginInfo(value, undefined);
+    } else {
+      setUserLoginInfo(undefined, value);
+    }
   };
 
   const {
@@ -25,7 +26,7 @@ const Login = () => {
     getErrorMessages,
     isFormValid,
   } = useValidation({
-    state: { ...loginInfo },
+    state: { ...userLoginInfo },
   });
 
   const _onPressButton = () => {
@@ -33,9 +34,6 @@ const Login = () => {
       username: { email: true, required: true },
       password: {
         minlength: 6,
-        hasSpecialCharacter: true,
-        hasUpperCase: true,
-        hasLowerCase: true,
         required: true,
       },
     });
@@ -47,10 +45,10 @@ const Login = () => {
       <Stack direction={"column"} space={4}>
         <TextInputFields
           variant="rounded"
-          placeholder="Username"
+          placeholder="E-Mail Address"
           borderColor={BORDER_COLOR}
           autoCapitalize="none"
-          value={loginInfo.username}
+          value={userLoginInfo.username}
           onChangeText={(value: string) => {
             __onChange(value, "username");
           }}
@@ -72,7 +70,7 @@ const Login = () => {
           variant="rounded"
           placeholder="Password"
           borderColor={BORDER_COLOR}
-          value={loginInfo.password}
+          value={userLoginInfo.password}
           onChangeText={(value: string) => {
             __onChange(value, "password");
           }}

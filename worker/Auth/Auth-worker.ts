@@ -72,5 +72,9 @@ export class Admin{
         this.username = username;
         this.password = password;
     }
+
+    handleLogin(){
+        
+    }
 }
 

@@ -4,8 +4,13 @@ type store = {
     statusType: "success" | "info" | "error" | "warning" | undefined,
     msg: string | undefined
   },
-  setAuthStatus: ( msg: (string | undefined), _statusType: ("success" | "info" | "error" | "warning" | undefined) ) => void
-  unsetauthStatus: () => void
+  setAuthStatus: ( msg: (string | undefined), _statusType: ("success" | "info" | "error" | "warning" | undefined) ) => void,
+  unsetauthStatus: () => void,
+  userLoginInfo: {
+    username?: string | undefined,
+    password?: string | undefined
+  },
+  setUserLoginInfo: (_uname: string | undefined, _password: string | undefined) => void
 }
 const useStore = create<store>(set => ({
   authStatus: {
@@ -19,6 +24,14 @@ const useStore = create<store>(set => ({
   unsetauthStatus: () => set(() => ({ authStatus:{
     msg: undefined,
     statusType: undefined
+  }})),
+  userLoginInfo: {
+    username: undefined,
+    password: undefined
+  },
+  setUserLoginInfo: (_uname, _password) => set((state) => ({ ...state, userLoginInfo:{
+    username: (_uname !== undefined) ? _uname : state.userLoginInfo.username,
+    password: (_password !== undefined ) ? _password : state.userLoginInfo.password
   }}))
 }))
 
