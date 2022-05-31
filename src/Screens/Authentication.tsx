@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Box, Button, Text } from "native-base";
+import { Box, Button, Heading, HStack, Spinner, Text } from "native-base";
 import { Video } from "expo-av";
 import {
   Keyboard,
@@ -15,12 +15,13 @@ import * as Animatable from "react-native-animatable";
 import { validateOTP } from "../../worker/Auth/Auth-worker";
 import StatusMsg from "../Components/Status-Module/StatusMsg";
 import useStore from "../../store/store";
+
 export default function Authentication() {
   const video = React.useRef(null);
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
   const [loginSwitch, setLoginSwitch] = React.useState("login");
-  const { authStatus, setAuthStatus } = useStore();
+  const { authStatus, setAuthStatus, userCheckingOverlay } = useStore();
   const [otpView, setOtpView] = React.useState({
     username: "",
     isVisible: false,
@@ -59,6 +60,35 @@ export default function Authentication() {
         padding={0}
         margin={0}
       />
+      {userCheckingOverlay && (
+        <Box
+          zIndex={9999}
+          position={"absolute"}
+          w={windowWidth}
+          h={windowHeight + 50}
+          top={0}
+          left={0}
+          right={0}
+          bottom={0}
+          opacity={0.3}
+          backgroundColor={"black"}
+          padding={0}
+          margin={0}
+          alignItems={"center"}
+          justifyContent={"center"}
+        >
+          <HStack space={2} justifyContent="center">
+            <Spinner
+              accessibilityLabel="Loading posts"
+              color="#fff"
+              size={"lg"}
+            />
+            <Heading color="white" fontSize="2xl">
+              Loading
+            </Heading>
+          </HStack>
+        </Box>
+      )}
       {otpView.isVisible && (
         <Animatable.View animation={"slideInDown"} style={styles.otpfield}>
           <Text fontFamily={"heading"} textAlign="center" mb={2}>

@@ -65,6 +65,15 @@ export async function validateOTP(username: string, code: string){
           return error;
       }
 }
+export async function isUserLoggedIn(){
+    try {
+        const currentAuthenticatedUser = await Auth.currentAuthenticatedUser();
+        if(_.has(currentAuthenticatedUser, 'signInUserSession'))
+            return true
+    } catch (error: any) {
+        return false
+    }
+}
 export class Admin{
     username: string | undefined;
     password: string | undefined;

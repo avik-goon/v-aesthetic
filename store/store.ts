@@ -14,7 +14,11 @@ type store = {
   setUserLoginInfo: (_uname: string | undefined, _password: string | undefined) => void,
 
   isLoginBtnPressed: boolean, 
-  setIsLoginBtnPressed: (status: boolean) => void
+  setIsLoginBtnPressed: (status: boolean) => void,
+
+  userCheckingOverlay: boolean,
+  toggleUserCheckingOverlay: () => void
+
 }
 
 
@@ -41,7 +45,9 @@ const useStore = create<store>(set => ({
   }})),
 
   isLoginBtnPressed: false,
-  setIsLoginBtnPressed: (status) => set({isLoginBtnPressed: status})
+  setIsLoginBtnPressed: (status) => set({isLoginBtnPressed: status}),
+  userCheckingOverlay: false,
+  toggleUserCheckingOverlay: () => set((state) => ({userCheckingOverlay: !state.userCheckingOverlay}))
 }))
 
 

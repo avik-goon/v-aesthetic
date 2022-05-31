@@ -8,7 +8,7 @@ import * as Animatable from "react-native-animatable";
 import useStore from "../../../store/store";
 // @ts-ignore
 import { useValidation } from "react-native-form-validator";
-import { Admin } from "../../../worker/Auth/Auth-worker";
+import { Admin, isUserLoggedIn } from "../../../worker/Auth/Auth-worker";
 const BORDER_COLOR = "primary.600";
 import _, { set } from "lodash";
 const Login = () => {
@@ -18,6 +18,7 @@ const Login = () => {
     setAuthStatus,
     isLoginBtnPressed,
     setIsLoginBtnPressed,
+    toggleUserCheckingOverlay,
   } = useStore();
   const __onChange: Function = (value: string, formField: string) => {
     if (formField === "username") {
@@ -56,7 +57,18 @@ const Login = () => {
         });
     }
   };
-
+  React.useEffect(() => {
+    toggleUserCheckingOverlay();
+    isUserLoggedIn().then((response) => {
+      if (response) {
+        console.log(response);
+        toggleUserCheckingOverlay();
+        setAuthStatus("You are LoggedIn, Redirecting", "success");
+      } else {
+        toggleUserCheckingOverlay();
+      }
+    });
+  }, []);
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <Stack direction={"column"} space={4}>
