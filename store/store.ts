@@ -1,4 +1,5 @@
 import create from "zustand";
+
 type store = {
   authStatus: {
     statusType: "success" | "info" | "error" | "warning" | undefined,
@@ -7,11 +8,16 @@ type store = {
   setAuthStatus: ( msg: (string | undefined), _statusType: ("success" | "info" | "error" | "warning" | undefined) ) => void,
   unsetauthStatus: () => void,
   userLoginInfo: {
-    username?: string | undefined,
-    password?: string | undefined
+    username?: string | "",
+    password?: string | ""
   },
-  setUserLoginInfo: (_uname: string | undefined, _password: string | undefined) => void
+  setUserLoginInfo: (_uname: string | undefined, _password: string | undefined) => void,
+
+  isLoginBtnPressed: boolean, 
+  setIsLoginBtnPressed: (status: boolean) => void
 }
+
+
 const useStore = create<store>(set => ({
   authStatus: {
     statusType: undefined,
@@ -26,13 +32,17 @@ const useStore = create<store>(set => ({
     statusType: undefined
   }})),
   userLoginInfo: {
-    username: undefined,
-    password: undefined
+    username: "",
+    password: ""
   },
   setUserLoginInfo: (_uname, _password) => set((state) => ({ ...state, userLoginInfo:{
     username: (_uname !== undefined) ? _uname : state.userLoginInfo.username,
     password: (_password !== undefined ) ? _password : state.userLoginInfo.password
-  }}))
+  }})),
+
+  isLoginBtnPressed: false,
+  setIsLoginBtnPressed: (status) => set({isLoginBtnPressed: status})
 }))
+
 
 export default useStore;

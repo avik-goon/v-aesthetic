@@ -15,12 +15,12 @@ import * as Animatable from "react-native-animatable";
 import { validateOTP } from "../../worker/Auth/Auth-worker";
 import StatusMsg from "../Components/Status-Module/StatusMsg";
 import useStore from "../../store/store";
-export default function Registration() {
+export default function Authentication() {
   const video = React.useRef(null);
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
   const [loginSwitch, setLoginSwitch] = React.useState("login");
-  const { authStatus, setAuthStatus, unsetauthStatus } = useStore();
+  const { authStatus, setAuthStatus } = useStore();
   const [otpView, setOtpView] = React.useState({
     username: "",
     isVisible: false,

@@ -1,5 +1,5 @@
 import { Auth } from 'aws-amplify';
-
+import _ from 'lodash'
 export class NewAdmin{
     username: string;
     password: string;
@@ -66,15 +66,28 @@ export async function validateOTP(username: string, code: string){
       }
 }
 export class Admin{
-    username: string;
-    password: string;
-    constructor(username: string, password: string ){
+    username: string | undefined;
+    password: string | undefined;
+    constructor(username: string | undefined, password: string | undefined ){
         this.username = username;
         this.password = password;
     }
 
-    handleLogin(){
-        
+    async handleLogin(){
+        try {
+         
+        //@ts-ignore
+         const loginStatus = await Auth.signIn(this.username, this.password); 
+         if(_.has(loginStatus, 'signInUserSession'))
+            return 'SUCCESS'
+        } catch (error: any) {
+            console.log(error);
+            let err = {
+                status: 'FAILED',
+                msg: error.message
+            }
+            return err;
+        }
     }
 }
 

@@ -21,6 +21,14 @@ const StatusMsg: React.FC<prop> = ({ msg, statusType }): JSX.Element => {
     status_icon = "alarm-light-outline";
   }
   const unSetStatus = useStore((state) => state.unsetauthStatus);
+  const authStatus = useStore((state) => state.authStatus);
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      unSetStatus();
+    }, 5000);
+  }, [authStatus.statusType]);
+
   return (
     <Stack
       zIndex={9999}

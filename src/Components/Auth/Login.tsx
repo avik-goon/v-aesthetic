@@ -8,9 +8,17 @@ import * as Animatable from "react-native-animatable";
 import useStore from "../../../store/store";
 // @ts-ignore
 import { useValidation } from "react-native-form-validator";
+import { Admin } from "../../../worker/Auth/Auth-worker";
 const BORDER_COLOR = "primary.600";
+import _, { set } from "lodash";
 const Login = () => {
-  const { userLoginInfo, setUserLoginInfo } = useStore();
+  const {
+    userLoginInfo,
+    setUserLoginInfo,
+    setAuthStatus,
+    isLoginBtnPressed,
+    setIsLoginBtnPressed,
+  } = useStore();
   const __onChange: Function = (value: string, formField: string) => {
     if (formField === "username") {
       setUserLoginInfo(value, undefined);
@@ -19,15 +27,10 @@ const Login = () => {
     }
   };
 
-  const {
-    validate,
-    isFieldInError,
-    getErrorsInField,
-    getErrorMessages,
-    isFormValid,
-  } = useValidation({
-    state: { ...userLoginInfo },
-  });
+  const { validate, isFieldInError, getErrorsInField, isFormValid } =
+    useValidation({
+      state: { ...userLoginInfo },
+    });
 
   const _onPressButton = () => {
     validate({
@@ -37,7 +40,21 @@ const Login = () => {
         required: true,
       },
     });
-    console.log(isFormValid());
+    if (isFormValid()) {
+      setIsLoginBtnPressed(true);
+      new Admin(userLoginInfo.username, userLoginInfo.password)
+        .handleLogin()
+        .then((response: any) => {
+          setIsLoginBtnPressed(false);
+          if (!_.has(response, "status")) {
+            //no err
+            setAuthStatus("Login Successfull, Redirecting", "success");
+          } else {
+            //err occured
+            setAuthStatus("Login Unsuccessfull," + response.msg, "error");
+          }
+        });
+    }
   };
 
   return (
@@ -94,17 +111,32 @@ const Login = () => {
           alignItems={"center"}
           alignSelf={"center"}
         >
-          <Button
-            leftIcon={<Icon as={Ionicons} name="log-in-outline" size="lg" />}
-            size={"lg"}
-            colorScheme="primary"
-            borderRadius={25}
-            paddingLeft={10}
-            paddingRight={10}
-            onPress={_onPressButton}
-          >
-            LOGIN
-          </Button>
+          {!isLoginBtnPressed ? (
+            <Button
+              leftIcon={<Icon as={Ionicons} name="log-in-outline" size="lg" />}
+              size={"lg"}
+              colorScheme="primary"
+              borderRadius={25}
+              paddingLeft={10}
+              paddingRight={10}
+              onPress={_onPressButton}
+            >
+              LOGIN
+            </Button>
+          ) : (
+            <Button
+              size={"lg"}
+              colorScheme="primary"
+              borderRadius={25}
+              paddingLeft={10}
+              paddingRight={10}
+              isLoading
+              isDisabled
+              isLoadingText="Please Wait"
+            >
+              LOGIN
+            </Button>
+          )}
         </Center>
       </Stack>
     </TouchableWithoutFeedback>
