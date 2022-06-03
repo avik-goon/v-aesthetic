@@ -9,9 +9,14 @@ import useStore from "../../../store/store";
 // @ts-ignore
 import { useValidation } from "react-native-form-validator";
 import { Admin, isUserLoggedIn } from "../../../worker/Auth/Auth-worker";
+
 const BORDER_COLOR = "primary.600";
-import _, { set } from "lodash";
+import _ from "lodash";
+import { useNavigation } from "@react-navigation/native";
+import type { AuthStackParamList } from "../../Navigators/NavigationTypes/types";
+import { StackNavigationProp } from "@react-navigation/stack";
 const Login = () => {
+  const navigation = useNavigation<StackNavigationProp<AuthStackParamList>>();
   const {
     userLoginInfo,
     setUserLoginInfo,
@@ -50,6 +55,7 @@ const Login = () => {
           if (!_.has(response, "status")) {
             //no err
             setAuthStatus("Login Successfull, Redirecting", "success");
+            navigation.replace("Home");
           } else {
             //err occured
             setAuthStatus("Login Unsuccessfull," + response.msg, "error");
@@ -64,6 +70,7 @@ const Login = () => {
         console.log(response);
         toggleUserCheckingOverlay();
         setAuthStatus("You are LoggedIn, Redirecting", "success");
+        navigation.replace("Home");
       } else {
         toggleUserCheckingOverlay();
       }

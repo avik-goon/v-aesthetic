@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import PrimaryStack from "./src/Stacks/PrimaryStack";
+import AuthStack from "./src/Navigators/StackNavigators/AuthStack";
 import { NativeBaseProvider } from "native-base";
 import theme from "./config/config.theme";
 import { Amplify } from "aws-amplify";
@@ -31,7 +31,7 @@ export default function App() {
     return (
       <NativeBaseProvider theme={theme}>
         <NavigationContainer>
-          <PrimaryStack />
+          <AuthStack />
         </NavigationContainer>
       </NativeBaseProvider>
     );

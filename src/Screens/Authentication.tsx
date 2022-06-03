@@ -16,7 +16,7 @@ import { validateOTP } from "../../worker/Auth/Auth-worker";
 import StatusMsg from "../Components/Status-Module/StatusMsg";
 import useStore from "../../store/store";
 
-export default function Authentication() {
+const Authentication: React.FC = () => {
   const video = React.useRef(null);
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
@@ -197,7 +197,7 @@ export default function Authentication() {
       </TouchableWithoutFeedback>
     </Box>
   );
-}
+};
 const styles = StyleSheet.create({
   otpfield: {
     zIndex: 22222,
@@ -209,3 +209,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
 });
+
+export default Authentication;
