@@ -22,7 +22,7 @@ const PerDayRevenue = () => {
             accessor={"counts"}
             backgroundColor={"#810022"}
             paddingLeft={"15"}
-            center={[0, 10]}
+            center={[0, 0]}
             absolute
             style={{ borderRadius: 5 }}
           />
