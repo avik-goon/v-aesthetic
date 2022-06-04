@@ -1,9 +1,9 @@
 import WeatherURLMaker from '../../constants/URL';
 
 
-const getWeatherDataAsJSON = async (lat: string, lng: string) => {
+const getWeatherDataAsJSON = async (lat: number, lng: number) => {
     const url = new WeatherURLMaker(lat,lng).URL();
-    return url;
+    return (await fetch(url, {method: 'GET'})).json();
 }
 
 export default getWeatherDataAsJSON;
