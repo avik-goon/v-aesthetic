@@ -44,7 +44,7 @@ export class NewAdmin{
         } catch (err: any) {
             if(err.message === "User already exists"){
                return await resendCode(this.username)
-            }else console.log(err);
+            }else return err;
             
         }
     }
@@ -91,7 +91,7 @@ export class Admin{
          if(_.has(loginStatus, 'signInUserSession'))
             return 'SUCCESS'
         } catch (error: any) {
-            console.log(error);
+          
             let err = {
                 status: 'FAILED',
                 msg: error.message

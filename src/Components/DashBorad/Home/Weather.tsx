@@ -39,7 +39,6 @@ const Weather = () => {
       }
     })();
   }, []);
-  console.log(weatherData);
 
   return (
     <HStack>

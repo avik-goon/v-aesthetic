@@ -68,7 +68,6 @@ const Login = () => {
     toggleUserCheckingOverlay();
     isUserLoggedIn().then((response) => {
       if (response) {
-        console.log(response);
         toggleUserCheckingOverlay();
         setAuthStatus("You are LoggedIn, Redirecting", "success");
         navigation.replace("Home");
