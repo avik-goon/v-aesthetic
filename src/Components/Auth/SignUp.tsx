@@ -6,6 +6,8 @@ import {
   Center,
   CheckIcon,
   Icon,
+  KeyboardAvoidingView,
+  ScrollView,
   Select,
   Stack,
   useToast,
@@ -17,6 +19,7 @@ import * as Animatable from "react-native-animatable";
 // @ts-ignore
 import { useValidation } from "react-native-form-validator";
 import { NewAdmin } from "../../../worker/Auth/Auth-worker";
+import AvoidKeyborad from "../AvoidKeyborad";
 interface SignUpProp {
   otpViewModifier: Function;
   setLoginSwitch: Function;
@@ -122,7 +125,7 @@ const SignUp: FC<SignUpProp> = ({ otpViewModifier, setLoginSwitch }) => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <AvoidKeyborad>
       <Stack direction={"column"} space={4}>
         <TextInputFields
           variant="rounded"
@@ -269,7 +272,7 @@ const SignUp: FC<SignUpProp> = ({ otpViewModifier, setLoginSwitch }) => {
           </Button>
         </Center>
       </Stack>
-    </TouchableWithoutFeedback>
+    </AvoidKeyborad>
   );
 };
 export default SignUp;

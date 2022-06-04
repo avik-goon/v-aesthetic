@@ -15,6 +15,7 @@ import _ from "lodash";
 import { useNavigation } from "@react-navigation/native";
 import type { AuthStackParamList } from "../../Navigators/NavigationTypes/types";
 import { StackNavigationProp } from "@react-navigation/stack";
+import AvoidKeyborad from "../AvoidKeyborad";
 const Login = () => {
   const navigation = useNavigation<StackNavigationProp<AuthStackParamList>>();
   const {

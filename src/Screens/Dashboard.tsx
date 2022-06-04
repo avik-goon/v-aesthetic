@@ -1,8 +1,7 @@
 import React, { useRef, useState } from "react";
-import { Box, Image, Text } from "native-base";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { Box, Image, Pressable, Text, ScrollView } from "native-base";
 import TabButton from "../Components/Button/TabButton";
-import { Animated, View, Image as IMG } from "react-native";
+import { Animated, View, Image as IMG, TouchableOpacity } from "react-native";
 import {
   home_image,
   search_image,
@@ -13,6 +12,7 @@ import {
   menu_btn_image,
   close_btn_image,
 } from "../../constants/asset";
+import Home from "./DasboardScreens/Home";
 const Dashboard = () => {
   const [currentTab, setCurrentTab] = useState("Home");
   const [showMenu, setShowMenu] = useState(false);
@@ -144,6 +144,16 @@ const Dashboard = () => {
               {currentTab}
             </Text>
           </View>
+          <Pressable onPress={handleOnPress}>
+            <ScrollView style={{ flexGrow: 1 }}>
+              <Box>
+                {currentTab === "Home" && <Home />}
+                {currentTab === "Search" && <></>}
+                {currentTab === "Settings" && <></>}
+                {currentTab === "Notifications" && <></>}
+              </Box>
+            </ScrollView>
+          </Pressable>
         </Animated.View>
       </Animated.View>
     </Box>

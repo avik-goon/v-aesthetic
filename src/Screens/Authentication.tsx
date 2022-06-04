@@ -1,5 +1,13 @@
 import * as React from "react";
-import { Box, Button, Heading, HStack, Spinner, Text } from "native-base";
+import {
+  Box,
+  Button,
+  Heading,
+  HStack,
+  ScrollView,
+  Spinner,
+  Text,
+} from "native-base";
 import { Video } from "expo-av";
 import {
   Keyboard,

@@ -67,7 +67,7 @@ export async function validateOTP(username: string, code: string){
 }
 export async function isUserLoggedIn(){
     try {
-        await Auth.signOut();
+       // await Auth.signOut();
         const currentAuthenticatedUser = await Auth.currentAuthenticatedUser();
         if(_.has(currentAuthenticatedUser, 'signInUserSession'))
             return true
@@ -85,7 +85,7 @@ export class Admin{
 
     async handleLogin(){
         try {
-         await Auth.signOut();
+        // await Auth.signOut();
         //@ts-ignore
          const loginStatus = await Auth.signIn(this.username, this.password); 
          if(_.has(loginStatus, 'signInUserSession'))
