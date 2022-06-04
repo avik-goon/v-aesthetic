@@ -144,15 +144,17 @@ const Dashboard = () => {
               {currentTab}
             </Text>
           </View>
-          <Pressable onPress={handleOnPress}>
-            <ScrollView style={{ flexGrow: 1 }}>
-              <Box>
-                {currentTab === "Home" && <Home />}
-                {currentTab === "Search" && <></>}
-                {currentTab === "Settings" && <></>}
-                {currentTab === "Notifications" && <></>}
-              </Box>
-            </ScrollView>
+          <Pressable
+            onPress={() => {
+              if (showMenu) handleOnPress();
+            }}
+          >
+            <Box>
+              {currentTab === "Home" && <Home />}
+              {currentTab === "Search" && <></>}
+              {currentTab === "Settings" && <></>}
+              {currentTab === "Notifications" && <></>}
+            </Box>
           </Pressable>
         </Animated.View>
       </Animated.View>
