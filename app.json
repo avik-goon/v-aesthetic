@@ -7,7 +7,7 @@
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#fff4df"
     },
     "updates": {
@@ -17,13 +17,15 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.skilltechlab.v-aesthetic",
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#fff4df"
-      }
+      },
+      "package": "com.avikgoon.vaesthetic"
     },
     "web": {
       "favicon": "./assets/favicon.png"

@@ -1,6 +1,6 @@
 import create from "zustand";
 
-type store = {
+export type store = {
   authStatus: {
     statusType: "success" | "info" | "error" | "warning" | undefined,
     msg: string | undefined
@@ -19,8 +19,10 @@ type store = {
   userCheckingOverlay: boolean,
   toggleUserCheckingOverlay: () => void
 
-}
+  sessionFilter: "today" | "this month" | "by date",
+  setSessionFilter: (session_name: "today" | "this month" | "by date" ) => void
 
+}
 
 const useStore = create<store>(set => ({
   authStatus: {
@@ -47,7 +49,10 @@ const useStore = create<store>(set => ({
   isLoginBtnPressed: false,
   setIsLoginBtnPressed: (status) => set({isLoginBtnPressed: status}),
   userCheckingOverlay: false,
-  toggleUserCheckingOverlay: () => set((state) => ({userCheckingOverlay: !state.userCheckingOverlay}))
+  toggleUserCheckingOverlay: () => set((state) => ({userCheckingOverlay: !state.userCheckingOverlay})),
+
+  sessionFilter: "today",
+  setSessionFilter: (session_name) => set(() => ({sessionFilter: session_name}))
 }))
 
 
