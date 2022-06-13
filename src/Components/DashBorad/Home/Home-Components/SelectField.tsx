@@ -24,7 +24,7 @@ const SelectField = () => {
           onValueChange={(itemValue) => _onChange(itemValue)}
         >
           <Select.Item label="Today" value={"today"} />
-          <Select.Item label="This Month" value="this month" />
+          <Select.Item label="Select a Month" value="this month" />
           <Select.Item label="Select a date" value="by date" />
         </Select>
       </Center>

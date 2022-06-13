@@ -13,6 +13,7 @@ import {
   close_btn_image,
 } from "../../constants/asset";
 import Home from "./DasboardScreens/Home";
+import Search from "./DasboardScreens/Search";
 const Dashboard = () => {
   const [currentTab, setCurrentTab] = useState("Home");
   const [showMenu, setShowMenu] = useState(false);
@@ -151,7 +152,7 @@ const Dashboard = () => {
           >
             <Box>
               {currentTab === "Home" && <Home />}
-              {currentTab === "Search" && <></>}
+              {currentTab === "Search" && <Search />}
               {currentTab === "Settings" && <></>}
               {currentTab === "Notifications" && <></>}
             </Box>

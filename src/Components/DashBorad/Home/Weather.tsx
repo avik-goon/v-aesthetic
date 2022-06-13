@@ -1,9 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Box, HStack, Center, Heading, Text } from "native-base";
 import * as Location from "expo-location";
 import getWeatherDataAsJSON from "../../../../worker/API/WeatherApi";
 import { Image } from "react-native";
-
+function truncate(source: string | undefined, size: number) {
+  // @ts-ignore
+  if (source.length > size) {
+    return source?.slice(0, size - 1) + "…";
+  } else {
+    return source;
+  }
+}
 const Weather = () => {
   const [location, setLocation] = useState<object>({});
   const [weatherData, setWeatherData] = useState<{
@@ -16,30 +23,50 @@ const Weather = () => {
     loc: undefined,
   });
   const [errorMsg, setErrorMsg] = useState<string>();
+  const componentMounted = useRef(true);
   useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-        return;
-      }
+    if (componentMounted.current) {
+      (async () => {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+          setErrorMsg("Permission to access location was denied");
+          return;
+        }
 
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-      if (location?.coords.latitude && location?.coords.longitude) {
-        const __weatherData = await getWeatherDataAsJSON(
-          location.coords.latitude,
-          location.coords.longitude
-        );
-        setWeatherData({
-          icon: "https:" + __weatherData?.current.condition.icon,
-          temp: __weatherData?.current.temp_c,
-          loc: __weatherData?.location.name,
-        });
-      }
-    })();
+        let location = await Location.getCurrentPositionAsync({});
+        setLocation(location);
+        if (location?.coords.latitude && location?.coords.longitude) {
+          const __weatherData = await getWeatherDataAsJSON(
+            location.coords.latitude,
+            location.coords.longitude
+          );
+          setWeatherData({
+            icon: "https:" + __weatherData?.current.condition.icon,
+            temp: __weatherData?.current.temp_c,
+            loc: __weatherData?.location.name,
+          });
+        }
+      })();
+    }
+
+    return () => {
+      componentMounted.current = false;
+      setWeatherData({
+        icon: undefined,
+        temp: undefined,
+        loc: undefined,
+      });
+    };
   }, []);
-
+  React.useEffect(() => {
+    let locationName: string | undefined = weatherData.loc;
+    let trimmedLocationName: string | undefined = undefined;
+    // @ts-ignore
+    if (locationName?.length >= 13) {
+      trimmedLocationName = truncate(locationName, 13);
+      setWeatherData((state) => ({ ...state, loc: trimmedLocationName }));
+    }
+  }, [weatherData.loc]);
   return (
     <HStack>
       <Center w={"1/2"}>

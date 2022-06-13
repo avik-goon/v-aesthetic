@@ -26,7 +26,7 @@ interface SignUpProp {
 }
 const SignUp: FC<SignUpProp> = ({ otpViewModifier, setLoginSwitch }) => {
   const [userInfo, setUserInfo] = React.useState({
-    fullname: "",
+    fullName: "",
     email: "",
     phone_number: "",
     password: "",
@@ -45,7 +45,7 @@ const SignUp: FC<SignUpProp> = ({ otpViewModifier, setLoginSwitch }) => {
   const _onPressButton = () => {
     Keyboard.dismiss();
     validate({
-      fullname: { minlength: 3, maxlength: 30, required: true },
+      fullName: { minlength: 3, maxlength: 30, required: true },
       email: { email: true, required: true },
       phone_number: {
         numbers: true,
@@ -69,7 +69,7 @@ const SignUp: FC<SignUpProp> = ({ otpViewModifier, setLoginSwitch }) => {
       new NewAdmin(
         userInfo.email,
         userInfo.password,
-        userInfo.fullname,
+        userInfo.fullName,
         userInfo.email,
         userInfo.gender,
         userInfo.phone_number
@@ -90,7 +90,7 @@ const SignUp: FC<SignUpProp> = ({ otpViewModifier, setLoginSwitch }) => {
               isVisible: true,
             }));
             setUserInfo(() => ({
-              fullname: "",
+              fullName: "",
               email: "",
               phone_number: "",
               password: "",
@@ -105,7 +105,7 @@ const SignUp: FC<SignUpProp> = ({ otpViewModifier, setLoginSwitch }) => {
               isVisible: true,
             }));
             setUserInfo(() => ({
-              fullname: "",
+              fullName: "",
               email: "",
               phone_number: "",
               password: "",
@@ -131,11 +131,11 @@ const SignUp: FC<SignUpProp> = ({ otpViewModifier, setLoginSwitch }) => {
           variant="rounded"
           placeholder="Full Name"
           borderColor={"primary.600"}
-          value={userInfo.fullname}
-          onChangeText={(value: string) => _onChange(value, "fullname")}
+          value={userInfo.fullName}
+          onChangeText={(value: string) => _onChange(value, "fullName")}
         />
-        {isFieldInError("fullname") &&
-          getErrorsInField("fullname").map(
+        {isFieldInError("fullName") &&
+          getErrorsInField("fullName").map(
             (errorMessage: string, index: Number) => (
               <Box key={index.toString()} marginY={-2.5}>
                 <Animatable.Text

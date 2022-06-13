@@ -1,18 +1,19 @@
 import React from "react";
-import { Box, Stack } from "native-base";
-import { reveneue_data, chartConfig } from "../../../../constants/dummy-data";
+import { Box, Stack, Text } from "native-base";
+import { revenue_data, chartConfig } from "../../../../constants/dummy-data";
 import { PieChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
 const screenWidth = Dimensions.get("window").width;
 //@ts-ignore
 import { BoxShadow } from "react-native-shadow";
+
 const PerDayRevenue = () => {
   return (
     <Stack>
       <Box my={"3"}>
         <BoxShadow setting={shadowOpt}>
           <PieChart
-            data={reveneue_data}
+            data={revenue_data}
             width={screenWidth - 35}
             height={220}
             chartConfig={chartConfig}
