@@ -25,7 +25,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#fff4df"
       },
-      "package": "com.avikgoon.vaesthetic"
+      "package": "com.skilltechlab.vaesthetic"
     },
     "web": {
       "favicon": "./assets/favicon.png"

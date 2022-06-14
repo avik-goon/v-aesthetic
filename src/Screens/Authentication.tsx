@@ -123,7 +123,7 @@ const Authentication: React.FC = () => {
                 setOtpView({ ...otpView, isVisible: false, username: "" });
                 if (response === "SUCCESS") {
                   setAuthStatus(
-                    "OTP Validation Successfull, you can now login",
+                    "OTP Validation Successfully Completed, you can now login",
                     "success"
                   );
                 } else {

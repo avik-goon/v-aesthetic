@@ -1,7 +1,21 @@
-import React, { useRef, useState } from "react";
-import { Box, Image, Pressable, Text, ScrollView } from "native-base";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  Box,
+  Image,
+  Pressable,
+  Text,
+  ScrollView,
+  Spinner,
+  HStack,
+} from "native-base";
 import TabButton from "../Components/Button/TabButton";
-import { Animated, View, Image as IMG, TouchableOpacity } from "react-native";
+import {
+  Animated,
+  View,
+  Image as IMG,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 import {
   home_image,
   search_image,
@@ -14,12 +28,16 @@ import {
 } from "../../constants/asset";
 import Home from "./DasboardScreens/Home";
 import Search from "./DasboardScreens/Search";
+import Settings from "./DasboardScreens/Settings";
+import Notification from "./DasboardScreens/Notification";
+import useStore from "../../store/store";
 const Dashboard = () => {
   const [currentTab, setCurrentTab] = useState("Home");
   const [showMenu, setShowMenu] = useState(false);
   const offsetValue = useRef(new Animated.Value(0)).current;
   const scaleValue = useRef(new Animated.Value(1)).current;
   const closeButtonOffset = useRef(new Animated.Value(0)).current;
+  const { loadingIndicator, setLoadingIndicator } = useStore();
 
   const handleOnPress = () => {
     Animated.timing(scaleValue, {
@@ -48,19 +66,42 @@ const Dashboard = () => {
       justifyContent={"flex-start"}
       safeArea
     >
+      {loadingIndicator && (
+        <Box
+          h={Dimensions.get("window").height}
+          position={"absolute"}
+          top={0}
+          left={0}
+          bottom={0}
+          right={0}
+          width={Dimensions.get("window").width}
+          bgColor={"gray.900"}
+          opacity={0.5}
+          zIndex={9999}
+          justifyContent={"center"}
+          alignItems={"center"}
+        >
+          <HStack space={"5"}>
+            <Spinner size="lg" color={"#fff"} />
+            <Text color={"#fff"} fontSize={"2xl"}>
+              Please Wait
+            </Text>
+          </HStack>
+        </Box>
+      )}
       <Box justifyContent={"flex-start"} padding={"5"} mt={"0"}>
         <Image
           source={profile_image}
-          alt={"Profile iamge"}
+          alt={"Profile image"}
           w={60}
           h={60}
           borderRadius={10}
         ></Image>
         <Text fontSize={"md"} fontWeight={"bold"} color={"#fff"} mt={"0.5"}>
-          V-Aesthatic
+          V-Aesthetic
         </Text>
         <TouchableOpacity>
-          <Text color={"#fff"}>View Profile</Text>
+          {/*<Text color={"#fff"}>View Profile</Text>*/}
         </TouchableOpacity>
         <View
           style={{
@@ -153,8 +194,8 @@ const Dashboard = () => {
             <Box>
               {currentTab === "Home" && <Home />}
               {currentTab === "Search" && <Search />}
-              {currentTab === "Settings" && <></>}
-              {currentTab === "Notifications" && <></>}
+              {currentTab === "Settings" && <Settings />}
+              {currentTab === "Notifications" && <Notification />}
             </Box>
           </Pressable>
         </Animated.View>

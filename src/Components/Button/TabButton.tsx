@@ -1,6 +1,11 @@
 import { Box, Image, Text } from "native-base";
 import React, { FC } from "react";
-import { ImageSourcePropType, TouchableOpacity } from "react-native";
+import { Alert, ImageSourcePropType, TouchableOpacity } from "react-native";
+import { signOut } from "../../../worker/Auth/Auth-worker";
+import useStore from "../../../store/store";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { AuthStackParamList } from "../../Navigators/NavigationTypes/types";
 
 function TabButton(
   currentTab: string,
@@ -8,11 +13,17 @@ function TabButton(
   title: string,
   image: ImageSourcePropType
 ) {
+  const { loadingIndicator, setLoadingIndicator } = useStore();
+  const navigation = useNavigation<StackNavigationProp<AuthStackParamList>>();
   return (
     <TouchableOpacity
       onPress={() => {
-        if (title == "LogOut") {
-          // Do your Stuff...
+        if (title === "LogOut") {
+          setLoadingIndicator(!loadingIndicator);
+          signOut().then((response) => {
+            setLoadingIndicator(false);
+            navigation.replace("Authentication");
+          });
         } else {
           setCurrentTab(() => title);
         }

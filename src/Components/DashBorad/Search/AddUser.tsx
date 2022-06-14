@@ -11,27 +11,33 @@ import {
   Text,
   VStack,
 } from "native-base";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import TextInputFields from "../../FormInput/TextInputFields";
 import AvoidKeyborad from "../../AvoidKeyborad";
 import { DataStore } from "@aws-amplify/datastore";
 import { Admin } from "../../../models";
 import { Alert } from "react-native";
+import useStore from "../../../../store/store";
+import StatusMsg from "../../Status-Module/StatusMsg";
 type AddUserProps = {
   componentHeight: any;
 };
 
-const storeAdminDetailsToDatabase = async (adminDetails: any) => {
+const storeAdminDetailsToDatabase = async (
+  adminDetails: any,
+  setAuthStatus: any
+) => {
   try {
     const status = await DataStore.save(new Admin(adminDetails));
     console.log(status);
     return status;
   } catch (e) {
-    console.log(e.message());
+    setAuthStatus(e.message(), "error");
   }
 };
 
 const AddUser: FC<AddUserProps> = ({ componentHeight }) => {
+  const { authStatus, setAuthStatus } = useStore();
   const [isLoginBtnPressed, setIsLoginBtnPressed] =
     React.useState<boolean>(false);
   const [adminInfo, setAdminInfo] = React.useState<{
@@ -51,10 +57,13 @@ const AddUser: FC<AddUserProps> = ({ componentHeight }) => {
   });
   const _onPressButton = () => {
     setIsLoginBtnPressed(true);
-    storeAdminDetailsToDatabase(adminInfo).then((r) => {
+    storeAdminDetailsToDatabase(adminInfo, setAuthStatus).then((r) => {
       if (r) {
         setIsLoginBtnPressed(false);
-        Alert.alert("Data successfully created!");
+        setAuthStatus(
+          "Admin data successfully inserted in database",
+          "success"
+        );
         setAdminInfo({
           fullName: "",
           email: "",
@@ -74,6 +83,9 @@ const AddUser: FC<AddUserProps> = ({ componentHeight }) => {
   return (
     <ScrollView flexGrow={1}>
       <Pressable pt={"5"}>
+        {authStatus.msg !== undefined && (
+          <StatusMsg statusType={authStatus.statusType} msg={authStatus.msg} />
+        )}
         <VStack
           space={3}
           w={"90%"}

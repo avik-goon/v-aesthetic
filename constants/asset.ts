@@ -6,3 +6,4 @@ export const settings_image = require("../assets/settings.png");
 export const logout_image = require("../assets/logout.png");
 export const menu_btn_image = require("../assets/menu.png");
 export const close_btn_image = require("../assets/close.png");
+export const no_notification_image = require("../assets/sad.png");

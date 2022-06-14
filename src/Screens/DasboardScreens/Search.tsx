@@ -1,14 +1,6 @@
 import React, { FC, useState } from "react";
 import { Dimensions, Platform, StatusBar } from "react-native";
-import {
-  Box,
-  Center,
-  HStack,
-  Icon,
-  Pressable,
-  ScrollView,
-  SearchIcon,
-} from "native-base";
+import { Box, Center, HStack, Icon, Pressable } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import SearchUser from "../../Components/DashBorad/Search/SearchUser";
 import AddUser from "../../Components/DashBorad/Search/AddUser";

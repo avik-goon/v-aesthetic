@@ -30,6 +30,9 @@ export type store = {
 
   date: Date;
   setDate: (date: Date) => void;
+
+  loadingIndicator: boolean;
+  setLoadingIndicator: (loadingIndicator: boolean) => void;
 };
 
 const useStore = create<store>((set) => ({
@@ -79,6 +82,9 @@ const useStore = create<store>((set) => ({
     set(() => ({ sessionFilter: session_name })),
   date: new Date(),
   setDate: (date) => set(() => ({ date })),
+  loadingIndicator: false,
+  setLoadingIndicator: (loadingIndicator: boolean) =>
+    set(() => ({ loadingIndicator })),
 }));
 
 export default useStore;
